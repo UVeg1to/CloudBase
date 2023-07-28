@@ -1,0 +1,84 @@
+version: '3.9'
+
+services:
+  reverse-proxy:
+    image: nginx:latest
+    ports:
+      - 80:80
+    volumes:
+    # This is where the NGINX configuration file should be located on your host machine, replace with
+      - ./Server:/etc/nginx/conf.d
+    networks:
+      space-network:
+        ipv4_address: "10.10.10.2"
+    restart: always
+
+  fast-api:
+    image: python:latest
+    networks:
+      earth-network:
+        ipv4_address: "10.10.20.2"
+    restart: always
+
+  web-server:
+    image: nginx:latest
+    volumes:
+      - ./Web/Page:/usr/share/nginx/html
+      - ./Web/Conf:/etc/nginx/conf.d
+    networks:
+      earth-network:
+        ipv4_address: "10.10.20.3"
+      space-network:
+        ipv4_address: "10.10.10.3"
+    restart: always
+
+  influx-db:
+    image: influxdb:latest
+    networks:
+      earth-network:
+        ipv4_address: "10.10.20.4"
+    restart: always
+
+  postgres-db:
+    image: postgres:latest
+    ports:
+      - 9090:5432
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      # PGDATA: default is /var/lib/postgresql/data
+    volumes:
+       - ./Databases/PostgresDB/data:/var/lib/postgresql/data
+       - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      earth-network:
+        ipv4_address: "10.10.20.5"
+    restart: always
+
+  cloudbeaver:
+    image: dbeaver/cloudbeaver:latest
+    ports:
+     - 9001:8978
+    volumes: 
+     - cloudbeaver:/opt/cloudbeaver/workspace
+    networks:
+      earth-network:
+        ipv4_address: "10.10.20.10"
+    restart: always
+
+volumes:
+  cloudbeaver:
+  postgres:
+
+networks:
+  space-network:
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.10.0/24
+  
+  earth-network:
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.20.0/24
