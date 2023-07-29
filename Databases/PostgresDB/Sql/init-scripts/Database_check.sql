@@ -30,10 +30,10 @@ CREATE TABLE IF NOT EXISTS `doctors` (
 -- Create Credentials table
 CREATE TABLE IF NOT EXISTS `credentials` (
   `User_Id` int NOT NULL AUTO_INCREMENT,
-  `User_Name` varchar(50), DEFAULT NOT NULL
+  `User_Name` varchar(50), DEFAULT NOT NULL,
   `User_Email` varchar(255) DEFAULT NOT NULL,
   `User_Password` binary DEFAULT NOT NULL,
-  `User_PhoneNumber` int(15) DEFAULT NOT NULL
+  `User_PhoneNumber` int(15) DEFAULT NOT NULL,
   `Account_Type` enum('Admin', 'Doctor', 'Patient') DEFAULT NOT NULL,
   PRIMARY KEY (`User_Id`)
 );
