@@ -49,7 +49,7 @@ services:
       # PGDATA: default is /var/lib/postgresql/data
     volumes:
        - ./Databases/PostgresDB/data:/var/lib/postgresql/data
-       - ./init-scripts:/docker-entrypoint-initdb.d
+       - ./Databases/PostgresDB/init-scripts:/docker-entrypoint-initdb.d
     networks:
       earth-network:
         ipv4_address: "10.10.20.5"
