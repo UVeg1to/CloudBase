@@ -5,21 +5,21 @@ CREATE DATABASE IF NOT EXISTS HospitalDB;
 \c HospitalDB;
 
 -- Create patient table
-CREATE TABLE IF NOT EXISTS `patients` (
+CREATE TABLE IF NOT EXISTS `Patients` (
   `P_Id` int NOT NULL AUTO_INCREMENT,
-  `P_LastName` varchar(50) DEFAULT NOT NULL,
-  `P_FirstName` varchar(50) DEFAULT NOT NULL,
-  `AssuranceNumber` varchar(50) DEFAULT NULL,
+  `P_Last_Name` varchar(50) DEFAULT NOT NULL,
+  `P_First_Name` varchar(50) DEFAULT NOT NULL,
+  `Assurance_Number` varchar(50) DEFAULT NULL,
   `Address` varchar(80) DEFAULT NOT NULL,
-  `PhoneNumber` varchar(20) DEFAULT NOT NULL,
+  `Phone_Number` varchar(20) DEFAULT NOT NULL,
   PRIMARY KEY (`P_Id`)
 );
 
 -- Create doctor table
 CREATE TABLE IF NOT EXISTS `doctors` (
   `D_Id` int NOT NULL AUTO_INCREMENT,
-  `D_LastName` varchar(50) DEFAULT NOT NULL,
-  `D_FirstName` varchar(50) DEFAULT NOT NULL,
+  `D_Last_Name` varchar(50) DEFAULT NOT NULL,
+  `D_First_Name` varchar(50) DEFAULT NOT NULL,
   `Sex` char(1) DEFAULT NOT NULL,
   `Working_Hospital` varchar(40) DEFAULT NOT NULL,
   `Working_Sector` varchar(50) DEFAULT NOT NULL,
@@ -28,4 +28,12 @@ CREATE TABLE IF NOT EXISTS `doctors` (
 );
 
 -- Create Credentials table
-CREATE TABLE
+CREATE TABLE IF NOT EXISTS `credentials` (
+  `User_Id` int NOT NULL AUTO_INCREMENT,
+  `User_Name` varchar(50), DEFAULT NOT NULL
+  `User_Email` varchar(255) DEFAULT NOT NULL,
+  `User_Password` binary DEFAULT NOT NULL,
+  `User_PhoneNumber` int(15) DEFAULT NOT NULL
+  `Account_Type` enum('Admin', 'Doctor', 'Patient') DEFAULT NOT NULL,
+  PRIMARY KEY (`User_Id`)
+);
