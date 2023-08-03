@@ -36,6 +36,21 @@ services:
 
   influx-db:
     image: influxdb:latest
+    ports:
+      - 8086:8086
+    volumes:
+      - ./Databases/InfluxDB/data:/var/lib/influxdb2
+      #- ./Databases/InfluxDB/Scripts/init-scripts/01-setup_user.sh:/setup-user.sh
+      #- ./Databases/InfluxDB/Scripts/init-scripts/02-setup_database.sh:/setup-database.sh
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUXDB_USERNAME}
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUXDB_PASSWORD}
+      - DOCKER_INFLUXDB_INIT_ORG=${INFLUXDB_ORG}
+      - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUXDB_BUCKET}
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_ADMIN_TOKEN}
+    #command: >
+     # bash -c "/setup-user.sh && /setup-bucket.sh && influxd run -c /etc/influxdb2/influxdb.conf"
     networks:
       earth-network:
         ipv4_address: "10.10.20.4"
